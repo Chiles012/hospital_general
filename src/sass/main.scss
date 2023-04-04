@@ -1,0 +1,21 @@
+body {
+    font-family: 'Nunito', sans-serif;
+}
+
+#root {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    justify-content: space-between;
+}
+
+h1 {
+    margin: 0;
+}
+
+a {
+    color: #5b70f4;
+    font-family: 'Nunito', sans-serif;
+    font-weight: bold;
+    text-decoration: none;
+}
