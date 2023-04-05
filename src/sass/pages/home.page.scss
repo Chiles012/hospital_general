@@ -17,3 +17,15 @@
         margin-bottom: 0;
     }
 }
+
+.filtros {
+    min-width: 1200px;
+    margin: 20px auto !important;
+    display: flex;
+    justify-content: space-between;
+
+    .filtros-content {
+        display: flex;
+        gap: 20px;
+    }
+}

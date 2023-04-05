@@ -2,6 +2,12 @@ body {
     font-family: 'Nunito', sans-serif;
 }
 
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+}
+
 #root {
     display: flex;
     flex-direction: column;
@@ -18,4 +24,52 @@ a {
     font-family: 'Nunito', sans-serif;
     font-weight: bold;
     text-decoration: none;
+}
+
+input {
+    font-family: 'Nunito', sans-serif;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    outline: none;
+}
+
+select {
+    font-family: 'Nunito', sans-serif;
+    padding: 7px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    outline: none;
+    width: 250px;
+}
+
+.input-icon {
+    position: relative;
+
+    input {
+        padding-left: 30px;
+    }
+
+    i {
+        position: absolute;
+        left: 10px;
+        top: 10px;
+        color: #5b70f4;
+    }
+}
+
+.btn {
+    background: #5b70f4;
+    color: #fff;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    font-family: 'Nunito', sans-serif;
+    font-weight: bold;
+    cursor: pointer;
+    transition: all 0.3s ease-in-out;
+
+    &:hover {
+        background: #4b5fe4;
+    }
 }
