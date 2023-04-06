@@ -1,4 +1,4 @@
-import { Banner, Filtros } from '../components/Home';
+import { Banner, ContentEspecialty, Filtros,  } from '../components/Home';
 import '../sass/pages/home.page.scss';
 
 const Home = () => {
@@ -6,6 +6,7 @@ const Home = () => {
         <>
             <Banner />
             <Filtros />
+            <ContentEspecialty />
         </>
     );
 };

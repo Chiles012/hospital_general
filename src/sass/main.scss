@@ -73,3 +73,19 @@ select {
         background: #4b5fe4;
     }
 }
+
+.card {
+    background: #fff;
+    border-radius: 5px;
+    padding: 20px;
+    margin-bottom: 20px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    justify-content: space-between;
+
+    p {
+        text-align: justify;
+    }
+}
