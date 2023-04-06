@@ -1,4 +1,7 @@
-import { Home } from "../pages";
+import { 
+    Home,
+    Login
+} from "../pages";
 
 type route = {
     path: string;
@@ -10,6 +13,11 @@ export const routes: route[] = [
     {
         path: "/",
         component: Home,
+        exact: true
+    },
+    {
+        path: "/login",
+        component: Login,
         exact: true
     }
 ];
