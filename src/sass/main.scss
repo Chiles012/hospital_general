@@ -56,6 +56,12 @@ select {
         top: 10px;
         color: #5b70f4;
     }
+
+    i.rigth {
+        top: 10px;
+        right: 10px;
+        left: unset;
+    }
 }
 
 .btn {
@@ -88,4 +94,10 @@ select {
     p {
         text-align: justify;
     }
+}
+
+.grid-2 {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
 }

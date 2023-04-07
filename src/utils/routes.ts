@@ -1,6 +1,7 @@
 import { 
     Home,
-    Login
+    Login,
+    Register
 } from "../pages";
 
 type route = {
@@ -18,6 +19,11 @@ export const routes: route[] = [
     {
         path: "/login",
         component: Login,
+        exact: true
+    },
+    {
+        path: '/register',
+        component: Register,
         exact: true
     }
 ];
