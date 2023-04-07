@@ -1,7 +1,8 @@
 import { 
     Home,
     Login,
-    Register
+    Register,
+    Speciality
 } from "../pages";
 
 type route = {
@@ -24,6 +25,11 @@ export const routes: route[] = [
     {
         path: '/register',
         component: Register,
+        exact: true
+    },
+    {
+        path: '/specialty/:id',
+        component: Speciality,
         exact: true
     }
 ];

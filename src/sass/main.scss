@@ -8,6 +8,10 @@ body {
     padding: 0 20px;
 }
 
+.text-justify {
+    text-align: justify;
+}
+
 #root {
     display: flex;
     flex-direction: column;
@@ -77,6 +81,17 @@ select {
 
     &:hover {
         background: #4b5fe4;
+    }
+}
+
+.btn.outline {
+    background: transparent;
+    border: 1px solid #5b70f4;
+    color: #5b70f4;
+
+    &:hover {
+        background: #5b70f4;
+        color: #fff;
     }
 }
 

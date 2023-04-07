@@ -1,4 +1,5 @@
 import { FC } from "react";
+import { Link } from "react-router-dom";
 
 const Card:FC<{ especialidad: any }> = ({ especialidad }) => {
     return (
@@ -9,7 +10,9 @@ const Card:FC<{ especialidad: any }> = ({ especialidad }) => {
             <p>
                 {especialidad.descripcion}
             </p>
-            <button className="btn">Postularme</button>
+            <Link to={`/specialty/${especialidad.id}`}>
+                <button className="btn">Postularme</button>
+            </Link>
         </div>
     );
 }
