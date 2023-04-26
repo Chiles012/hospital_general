@@ -1,7 +1,95 @@
+import { useState } from 'react';
 import { stethoscope } from '../assets';
 import '../sass/pages/register.page.scss';
+import { addDoc, collection, getFirestore } from 'firebase/firestore';
+import { getAuth, createUserWithEmailAndPassword, GoogleAuthProvider, signInWithPopup } from 'firebase/auth';
+import app from '../config/firebase.config';
+import { useDispatch } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
 
 const Register = () => {
+
+    const [nombre, setNombre] = useState('');
+    const [email, setEmail] = useState('');
+    const [usuario, setUsuario] = useState('');
+    const [password, setPassword] = useState('');
+    const [confirmPassword, setConfirmPassword] = useState('');
+
+    const dispatch = useDispatch();
+    const navigate = useNavigate();
+
+    const handleRegister = async (e: any) => {
+        e.preventDefault();
+        console.log('Register');
+
+        if (password !== confirmPassword) {
+            alert('Las contraseñas no coinciden');
+            return;
+        } else {
+
+            try {
+                const db = getFirestore(app);
+
+                const auth = getAuth(app);
+
+                await createUserWithEmailAndPassword(auth, email, password);
+
+                await addDoc(collection(db, 'usuarios'), {
+                    nombre,
+                    email,
+                    usuario,
+                    password,
+                    date: new Date()
+                });
+            } catch (error: any) {
+                alert(error.message || 'Error');
+            }
+            
+            setNombre('')
+            setEmail('')
+            setUsuario('')
+            setPassword('')
+        }
+
+    }
+
+    const handleRegisterGoogle = async (e: any) => {
+        e.preventDefault();
+        console.log('Register Google');
+
+        const auth = getAuth(app);
+
+        const provider = new GoogleAuthProvider();
+
+        try {
+
+            const userCredential = await signInWithPopup(auth, provider);
+
+            const db = getFirestore(app);
+
+            await addDoc(collection(db, 'usuarios'), {
+                nombre: userCredential.user.displayName,
+                email: userCredential.user.email,
+                usuario: userCredential.user.displayName,
+                password: '',
+                date: new Date()
+            });
+
+            dispatch({
+                type: "SET_USER",
+                payload: userCredential.user.uid
+            });
+
+            navigate('/');
+
+        } catch (error: any) {
+
+            alert(error.message || 'Error');
+
+        }
+
+    }
+
     return (
         <div className="register container">
             <img style={{ width: '50%' }} src={stethoscope} alt="logo" />
@@ -11,35 +99,33 @@ const Register = () => {
                 <form>
                     <div className="input-icon">
                         <i className="fas fa-user"></i>
-                        <input type="text" placeholder="Nombre completo" />
+                        <input value={nombre} onChange={(e) => setNombre(e.target.value)} type="text" placeholder="Nombre completo" />
                     </div>
                     <div className="input-icon">
                         <i className="fas fa-envelope"></i>
-                        <input type="email" placeholder="Correo electrónico" />
+                        <input value={email} onChange={(e) => setEmail(e.target.value)} type="email" placeholder="Correo electrónico" />
                     </div>
                     <div className="input-icon">
                         <i className="fas fa-user"></i>
-                        <input type="text" placeholder="Usuario" />
+                        <input value={usuario} onChange={(e) => setUsuario(e.target.value)} type="text" placeholder="Usuario" />
                     </div>
                     <div className="grid-2">
                         <div className="input-icon">
                             <i className="fas fa-lock"></i>
-                            <input type="password" placeholder="Contraseña" />
-                            <i className='fas fa-eye rigth'></i>
+                            <input value={password} onChange={(e) => setPassword(e.target.value)} type="password" placeholder="Contraseña" />
                         </div>
                         <div className="input-icon">
                             <i className="fas fa-lock"></i>
-                            <input type="password" placeholder="Confirmar Contraseña" />
-                            <i className='fas fa-eye rigth'></i>
+                            <input value={confirmPassword} onChange={(e) => setConfirmPassword(e.target.value)} type="password" placeholder="Confirmar Contraseña" />
                         </div>
                     </div>
-                    <button className="btn">Registrarse</button>
+                    <button onClick={handleRegister} className="btn">Registrarse</button>
                     <div className="divider">
                         <hr />
                         <span>o</span>
                         <hr />
                     </div>
-                    <button className="btn">
+                    <button onClick={handleRegisterGoogle}  className="btn">
                         <i className="fab fa-google"></i> Registrarse con Google
                     </button>
                 </form>

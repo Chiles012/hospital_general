@@ -1,12 +1,14 @@
-const Filtros = () => {
+import { FC } from "react";
+
+const Filtros: FC<{ handleSearch: any }> = ({ handleSearch }) => {
+
     return (
         <div className="filtros container">
             <div className="filtros-content">
                 <div className="input-icon">
                     <i className="fas fa-search"></i>
-                    <input type="text" placeholder="Buscar especialidad" />
+                    <input onChange={handleSearch} type="text" placeholder="Buscar especialidad" />
                 </div>
-                <button className="btn">Buscar</button>
             </div>
         </div>
     );

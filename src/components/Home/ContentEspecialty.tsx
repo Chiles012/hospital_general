@@ -1,44 +1,23 @@
+import { FC } from "react";
 import Card from "../Card";
 
-const ContentEspecialty = () => {
-
-    const especialty = [
-        {
-            id: 1,
-            nombre: "Desarrollo Web",
-            descripcion: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, quod."
-        },
-        {
-            id: 2,
-            nombre: "Desarrollo Móvil",
-            descripcion: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, quod."
-        },
-        {
-            id: 3,
-            nombre: "Desarrollo de Videojuegos",
-            descripcion: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, quod."
-        },
-        {
-            id: 4,
-            nombre: "Desarrollo de Software",
-            descripcion: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, quod."
-        },
-        {
-            id: 5,
-            nombre: "Desarrollo de Software",
-            descripcion: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, quod."
-        },
-        {
-            id: 6,
-            nombre: "Desarrollo de Software",
-            descripcion: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, quod."
-        }
-    ]
+const ContentEspecialty: FC<{especialidades: any}> = ({especialidades}) => {
 
     return (
         <div className="content-especialty">
             {
-                especialty.map((especialidad) => {
+                especialidades.length === 0 ?
+                <h1
+                    style={{
+                        textAlign: 'center',
+                        marginTop: '20px',
+                        color: '#5b70f4'
+                    }}
+                >
+                    No hay usuarios registrados
+                </h1>
+                :
+                especialidades.map((especialidad: any) => {
                     return (
                         <Card
                             key={especialidad.id}
