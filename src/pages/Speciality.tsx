@@ -14,7 +14,7 @@ const Speciality = () => {
     const [especialidad, setEspecialidad] = useState<any>({
         id: 0,
         nombre: "",
-        descripcion: ""
+        descripcion: "",
     });
     const [docs, setDocs] = useState<any>({
         CIFRHS: "",
@@ -34,6 +34,7 @@ const Speciality = () => {
         Fotografia_Frente_2: "",
         Cartas_Motivos: "",
         Recibo_Pago: "",
+        internacion: false,
     });
 
     const { user } = useSelector((state: any) => state.user);
@@ -71,6 +72,18 @@ const Speciality = () => {
     const updateFiles = async (e: any, doc: string) => {
         e.preventDefault();
 
+        // solo subir archivos pdf
+        if (e.target.files[0].type !== 'application/pdf') {
+            alert('Solo se permiten archivos PDF');
+            return;
+        }
+
+        // no subir archivos mayores a 5MB
+        if (e.target.files[0].size > 5 * 1024 * 1024) {
+            alert('El archivo es demasiado grande');
+            return;
+        }
+
         try {
             const storage = getStorage(app);
 
@@ -96,6 +109,12 @@ const Speciality = () => {
 
     const handlerSubmit = async (e: any) => {
         e.preventDefault();
+
+        if (Object.values(docs).includes('')) {
+            alert('Sube todos los documentos');
+            return;
+        }
+
         try {
             const db = getFirestore(app);
 
@@ -105,10 +124,16 @@ const Speciality = () => {
             // obtener los documentos de la especialidad
             const users = especialidadRef.data()?.users;
 
+            if (users.map((user: any) => user.user).find((user1: any) => user1 === user)) {
+                alert('Ya has subido tus documentos');
+                return;
+            }
+
             // agregar el usuario a la especialidad
             users.push({
-                ...user,
-                docs
+                user,
+                docs,
+                acept: false
             });
 
             // actualizar la especialidad
@@ -117,6 +142,8 @@ const Speciality = () => {
             });
 
             setOpen(false);
+
+            alert('Documentos subidos correctamente');
 
         } catch (error: any) {
             alert(error.message || 'Error al subir los archivos');
@@ -270,9 +297,12 @@ const Speciality = () => {
                         <label htmlFor="">Recibo Pago de beca</label>
                         <input onChange={(e) => updateFiles(e, 'Recibo_Pago')} type="file" name="" id="" />
                     </div>
-                    <span></span>
-                    <button className="btn">Postularme</button>
-                    <button onClick={() => setOpen(false)} className="btn">Cancelar</button>
+                    <div>
+                        <input value={docs.internacion} type="checkbox" name="Internacional" id="" />
+                        Internacional
+                    </div>
+                    <button onClick={(e) => {e.preventDefault(); handlerSubmit(e)}} className="btn">Postularme</button>
+                    <button onClick={(e) => {e.preventDefault(); setOpen(false)}} className="btn">Cancelar</button>
                 </form>
             </Modal>
             {
@@ -284,20 +314,26 @@ const Speciality = () => {
                         color: '#5b70f4'
                     }}
                 >
-                    No existe el Usuario
+                    No existe el Especialidad con el id {id}
                 </h1> :
                 <>
                     <h1>{especialidad!.nombre}</h1>
                     <br />
                     <div style={{ width: '30%' }} className="grid-2">
-                        <button onClick={() => {
-                            if (!user) {
-                                alert('Debes iniciar sesión');
-                                return;
-                            } 
+                        {
+                            especialidad!.active ?
+                            <button onClick={() => {
+                                if (!user) {
+                                    alert('Debes iniciar sesión');
+                                    return;
+                                } 
 
-                            setOpen(true);
-                        }} className="btn">Postularme</button>
+                                setOpen(true);
+                            }} className="btn">Postularme</button>
+                            :
+                            <button className="btn btn-danger">No disponible</button>
+                        }
+                        
                     </div>
                     <p
                         className="text-justify"

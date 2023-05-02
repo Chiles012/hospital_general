@@ -6,6 +6,7 @@ import { getAuth, createUserWithEmailAndPassword, GoogleAuthProvider, signInWith
 import app from '../config/firebase.config';
 import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
+import emailjs from '@emailjs/browser';
 
 const Register = () => {
 
@@ -32,15 +33,32 @@ const Register = () => {
 
                 const auth = getAuth(app);
 
-                await createUserWithEmailAndPassword(auth, email, password);
+                // enviar correo de verificación
+                emailjs.send('service_5jr8its', 'template_x93aoiv', {
+                    email: email
+                }, 'wp7BlILE1VjsWYsFE').then(async (result) => {
 
-                await addDoc(collection(db, 'usuarios'), {
-                    nombre,
-                    email,
-                    usuario,
-                    password,
-                    date: new Date()
+                    await addDoc(collection(db, 'usuarios'), {
+                        nombre,
+                        email,
+                        usuario,
+                        password,
+                        date: new Date()
+                    });
+
+                    dispatch({
+                        type: "SET_USER",
+                        payload: auth.currentUser?.email
+                    });
+
+                    alert('Usuario registrado correctamente, bienvenido');
+
+                    navigate('/');
+
+                }).catch((error) => {
+                    alert(error.message || 'Error');
                 });
+
             } catch (error: any) {
                 alert(error.message || 'Error');
             }
@@ -77,7 +95,7 @@ const Register = () => {
 
             dispatch({
                 type: "SET_USER",
-                payload: userCredential.user.uid
+                payload: userCredential.user.email
             });
 
             navigate('/');

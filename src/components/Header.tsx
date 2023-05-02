@@ -1,4 +1,5 @@
 import { Link } from "react-router-dom"
+import logo from "../assets/logo.jpeg"
 
 import "../sass/components/header.component.scss"
 import { useDispatch, useSelector } from "react-redux";
@@ -29,7 +30,7 @@ const Header = () => {
                 <Link
                     to="/"
                 >
-                    <h1>Logo</h1>
+                    <img src={logo} alt="Logo" width='100px' />
                 </Link>
                 <ul>
                     {

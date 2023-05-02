@@ -34,7 +34,7 @@ const Login = () => {
                 }
             });
 
-            const usuario = usuarios.find((usuario: any) => usuario.email === email && usuario.password === password);
+            const usuario: any = usuarios.find((usuario: any) => usuario.email === email && usuario.password === password);
 
             if (!usuario) {
                 alert('Credenciales incorrectas');
@@ -43,7 +43,7 @@ const Login = () => {
 
             dispatch({
                 type: "SET_USER",
-                payload: usuario.id
+                payload: usuario.email
             });
 
             navigate('/');
@@ -69,7 +69,7 @@ const Login = () => {
 
                 dispatch({
                     type: "SET_USER",
-                    payload: result.user.uid
+                    payload: result.user.email
                 });
 
                 navigate('/');
