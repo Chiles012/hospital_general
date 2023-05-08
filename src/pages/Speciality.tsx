@@ -11,6 +11,7 @@ const Speciality = () => {
     const { id } = useParams<{ id: string }>();
     const [especialty, setEspecialty] = useState<any>([]);
     const [open, setOpen] = useState<boolean>(false);
+    const [open2, setOpen2] = useState<boolean>(false);
     const [especialidad, setEspecialidad] = useState<any>({
         id: 0,
         nombre: "",
@@ -73,9 +74,16 @@ const Speciality = () => {
         e.preventDefault();
 
         // solo subir archivos pdf
-        if (e.target.files[0].type !== 'application/pdf') {
-            alert('Solo se permiten archivos PDF');
-            return;
+        if (doc === 'Fotografia_Frente' || doc === 'Fotografia_Frente_2') {
+            if (e.target.files[0].type !== 'image/jpeg' && e.target.files[0].type !== 'image/png') {
+                alert('Solo se permiten archivos JPG y PNG');
+                return;
+            }
+        } else {
+            if (e.target.files[0].type !== 'application/pdf') {
+                alert('Solo se permiten archivos PDF');
+                return;
+            }
         }
 
         // no subir archivos mayores a 5MB
@@ -110,8 +118,24 @@ const Speciality = () => {
     const handlerSubmit = async (e: any) => {
         e.preventDefault();
 
-        if (Object.values(docs).includes('')) {
-            alert('Sube todos los documentos');
+        if (
+            docs.CIFRHS === "" ||
+            docs.ENARM === "" ||
+            docs.Acta_Nacimiento === "" ||
+            docs.Kardex === "" ||
+            docs.Acta_Examen_Profesional === "" ||
+            docs.CV === "" ||
+            docs.Constancia_Servicio_Social === "" ||
+            docs.Acreditacion_Ingles === "" ||
+            docs.INE === "" ||
+            docs.CURP === "" ||
+            docs.RFC === "" ||
+            docs.Fotografia_Frente === "" ||
+            docs.Fotografia_Frente_2 === "" ||
+            docs.Cartas_Motivos === "" ||
+            docs.Recibo_Pago === ""
+        ) {
+            alert('Sube todos los documentos excepto Titulo y Cedula');
             return;
         }
 
@@ -198,7 +222,7 @@ const Speciality = () => {
                         flexDirection: 'column'
                         
                     }}>
-                        <label htmlFor="">Titulo</label>
+                        <label htmlFor="">Titulo (Opcional)</label>
                         <input onChange={(e) => updateFiles(e, 'Titulo')} type="file" name="" id="" />
                     </div>
                     <div style={{
@@ -206,7 +230,7 @@ const Speciality = () => {
                         flexDirection: 'column'
                         
                     }}>
-                        <label htmlFor="">Cedula</label>
+                        <label htmlFor="">Cedula (Opcional)</label>
                         <input onChange={(e) => updateFiles(e, 'Cedula')} type="file" name="" id="" />
                     </div>
                     <div style={{
@@ -286,7 +310,10 @@ const Speciality = () => {
                         flexDirection: 'column'
                         
                     }}>
-                        <label htmlFor="">Cartas Motivos</label>
+                        <label htmlFor="" style={{
+                            display: 'flex',
+                            justifyContent: 'space-between'
+                        }}>Cartas Motivos <i style={{ cursor: 'pointer' }} onClick={() => setOpen2(true)} className="fas fa-info"></i></label>
                         <input onChange={(e) => updateFiles(e, 'Cartas_Motivos')} type="file" name="" id="" />
                     </div>
                     <div style={{
@@ -304,6 +331,16 @@ const Speciality = () => {
                     <button onClick={(e) => {e.preventDefault(); handlerSubmit(e)}} className="btn">Postularme</button>
                     <button onClick={(e) => {e.preventDefault(); setOpen(false)}} className="btn">Cancelar</button>
                 </form>
+            </Modal>
+            <Modal
+                isOpen={open2}
+                onRequestClose={() => setOpen2(false)}
+            >
+                <h1>Info</h1>
+                <p>
+                    Subir una carta de motivos en la que se especifique el motivo por el cual desea formar parte del equipo del hospital, así como las expectativas que tiene de su estancia en el mismo.
+                </p>
+                <button onClick={() => setOpen2(false)} className="btn">Cerrar</button>
             </Modal>
             {
                 !especialidad ? 

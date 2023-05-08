@@ -1,8 +1,8 @@
 import { useState } from 'react';
 import { stethoscope } from '../assets';
 import '../sass/pages/register.page.scss';
-import { addDoc, collection, getFirestore } from 'firebase/firestore';
-import { getAuth, createUserWithEmailAndPassword, GoogleAuthProvider, signInWithPopup } from 'firebase/auth';
+import { addDoc, collection, getDoc, getDocs, getFirestore, query, where } from 'firebase/firestore';
+import { getAuth, GoogleAuthProvider, signInWithPopup } from 'firebase/auth';
 import app from '../config/firebase.config';
 import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
@@ -12,9 +12,10 @@ const Register = () => {
 
     const [nombre, setNombre] = useState('');
     const [email, setEmail] = useState('');
-    const [usuario, setUsuario] = useState('');
+    const [curp, setCurp] = useState('');
     const [password, setPassword] = useState('');
     const [confirmPassword, setConfirmPassword] = useState('');
+    const [Internacional, setInternacional] = useState(false);
 
     const dispatch = useDispatch();
     const navigate = useNavigate();
@@ -31,7 +32,14 @@ const Register = () => {
             try {
                 const db = getFirestore(app);
 
-                const auth = getAuth(app);
+                const queryUser = query(collection(db, 'usuarios'), where('curp', '==', curp));
+
+                const querySnapshot = await getDocs(queryUser);
+
+                if (!querySnapshot.empty) {
+                    alert('El usuario ya existe');
+                    return;
+                }
 
                 // enviar correo de verificación
                 emailjs.send('service_5jr8its', 'template_x93aoiv', {
@@ -41,14 +49,14 @@ const Register = () => {
                     await addDoc(collection(db, 'usuarios'), {
                         nombre,
                         email,
-                        usuario,
+                        curp,
                         password,
                         date: new Date()
                     });
 
                     dispatch({
                         type: "SET_USER",
-                        payload: auth.currentUser?.email
+                        payload: email
                     });
 
                     alert('Usuario registrado correctamente, bienvenido');
@@ -65,7 +73,7 @@ const Register = () => {
             
             setNombre('')
             setEmail('')
-            setUsuario('')
+            setCurp('')
             setPassword('')
         }
 
@@ -124,8 +132,14 @@ const Register = () => {
                         <input value={email} onChange={(e) => setEmail(e.target.value)} type="email" placeholder="Correo electrónico" />
                     </div>
                     <div className="input-icon">
+                        <input type='checkbox' checked={Internacional} onChange={(e) => setInternacional(e.target.checked)} />
+                        <label>¿Eres extranjero?</label>
+                    </div>
+                    <div className="input-icon">
                         <i className="fas fa-user"></i>
-                        <input value={usuario} onChange={(e) => setUsuario(e.target.value)} type="text" placeholder="Usuario" />
+                        <input value={curp} onChange={(e) => setCurp(e.target.value)} type="text" placeholder={
+                            Internacional ? 'No. Pasaporte' : 'CURP'
+                        } />
                     </div>
                     <div className="grid-2">
                         <div className="input-icon">
