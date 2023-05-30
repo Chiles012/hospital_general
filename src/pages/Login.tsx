@@ -101,11 +101,6 @@ const Login = () => {
                         <input value={password} onChange={(e) => setPassword(e.target.value)} type="password" placeholder="Contraseña" />
                     </div>
                     <button onClick={handleLogin} className="btn">Iniciar Sesión</button>
-                    <div className="divider">
-                        <hr />
-                        <span>o</span>
-                        <hr />
-                    </div>
                 </form>
             </div>
         </div>

@@ -12,6 +12,7 @@ const Speciality = () => {
     const [especialty, setEspecialty] = useState<any>([]);
     const [open, setOpen] = useState<boolean>(false);
     const [open2, setOpen2] = useState<boolean>(false);
+    const [open3, setOpen3] = useState<boolean>(false);
     const [especialidad, setEspecialidad] = useState<any>({
         id: 0,
         nombre: "",
@@ -222,7 +223,10 @@ const Speciality = () => {
                         flexDirection: 'column'
                         
                     }}>
-                        <label htmlFor="">Titulo (Opcional)</label>
+                        <label htmlFor="" style={{
+                            display: 'flex',
+                            justifyContent: 'space-between'
+                        }}>Titulo (Opcional) <i style={{ cursor: 'pointer' }} onClick={() => setOpen3(true)} className="fas fa-info"></i></label>
                         <input onChange={(e) => updateFiles(e, 'Titulo')} type="file" name="" id="" />
                     </div>
                     <div style={{
@@ -230,7 +234,10 @@ const Speciality = () => {
                         flexDirection: 'column'
                         
                     }}>
-                        <label htmlFor="">Cedula (Opcional)</label>
+                        <label htmlFor="" style={{
+                            display: 'flex',
+                            justifyContent: 'space-between'
+                        }}>Cedula (Opcional) <i style={{ cursor: 'pointer' }} onClick={() => setOpen3(true)} className="fas fa-info"></i></label>
                         <input onChange={(e) => updateFiles(e, 'Cedula')} type="file" name="" id="" />
                     </div>
                     <div style={{
@@ -339,6 +346,16 @@ const Speciality = () => {
                 <h1>Info</h1>
                 <p>
                     Subir una carta de motivos en la que se especifique el motivo por el cual desea formar parte del equipo del hospital, así como las expectativas que tiene de su estancia en el mismo.
+                </p>
+                <button onClick={() => setOpen2(false)} className="btn">Cerrar</button>
+            </Modal>
+            <Modal
+                isOpen={open3}
+                onRequestClose={() => setOpen3(false)}
+            >
+                <h1>Info</h1>
+                <p>
+                    Se puede subir un comprobante del tramite de titulación, o en su defecto, una carta de la institución educativa en la que se especifique que el alumno se encuentra en proceso de titulación.
                 </p>
                 <button onClick={() => setOpen2(false)} className="btn">Cerrar</button>
             </Modal>

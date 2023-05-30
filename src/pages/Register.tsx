@@ -152,11 +152,6 @@ const Register = () => {
                         </div>
                     </div>
                     <button onClick={handleRegister} className="btn">Registrarse</button>
-                    <div className="divider">
-                        <hr />
-                        <span>o</span>
-                        <hr />
-                    </div>
                 </form>
             </div>
         </div>
