@@ -157,9 +157,6 @@ const Register = () => {
                         <span>o</span>
                         <hr />
                     </div>
-                    <button onClick={handleRegisterGoogle}  className="btn">
-                        <i className="fab fa-google"></i> Registrarse con Google
-                    </button>
                 </form>
             </div>
         </div>

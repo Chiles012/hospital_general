@@ -106,9 +106,6 @@ const Login = () => {
                         <span>o</span>
                         <hr />
                     </div>
-                    <button onClick={handleLoginGoogle} className="btn">
-                        <i className="fab fa-google"></i> Iniciar Sesión con Google
-                    </button>
                 </form>
             </div>
         </div>
